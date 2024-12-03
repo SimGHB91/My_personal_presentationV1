@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" >
+    <head>
+    <meta charset="UTF-8">
+    <title>Televisore mod.1</title>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://fonts.cdnfonts.com/css/portia" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    </head>
+    <body>
+
+        <main class="schermotv">
+            <div class="scanlines">
+            <div class="screen">
+                <canvas id="canvas" class="picture">
+                </canvas>
+                <div class="overlay">
+                    <div class="imgphoto wobblex wobbley"></div>
+                <div class="text">
+                    <span>
+                        <!--<p id="av1"> AV-1 </p>-->
+                        <p id="channel"> CH-3 </p> 
+                        <p id="play"> PLAY </p>  
+                        <p id="timer"> 00:00:00 </p>
+                    </span>
+                </div>
+                <div class="menu">
+                    <header class="cssanimation leRainDrop random"> <!---------- TESTO MAIN ---------------->
+                        I'm Simone
+                    </header>
+                    <footer> <!---------- TESTO AUTO-SCRIVENTE ----------------->
+                        an Italian&nbsp<span class="typing-text"></span> 
+                    </footer>
+                </div>
+                </div>
+            </div>
+            </div>
+        </main>
+      
+        <audio controls autoplay loop id="switcher-tv">
+            <source src="./sounds/AudioTv-3.mp3" type="audio/ogg" />
+            Il tuo browser non supporta l'elemento audio.
+        </audio>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css"></script>
+
+        <!-- FUNZIONE DI ACCENDI E SPEGNI TELEVISORE -->
+        <script src='//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.2/TweenMax.min.js'></script>
+        <script src='//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.6.1/lodash.min.js'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+
+        <!-- partial -->
+        <script  src="./script.js"></script>
+        <script  src="./tv-start.js"></script>
+        <script  src="./typingtext.js"></script>
+
+        <script>
+            // Seleziona l'elemento audio
+            const audioElement = document.getElementById('switcher-tv');
+
+            // Aggiungi un gestore di eventi per il clic su tutto il documento
+            document.addEventListener('click', function () {
+                if (audioElement.paused) {
+                    // Se l'audio è in pausa, riproducilo dall'inizio
+                    audioElement.currentTime = 0; // Riavvolgi l'audio all'inizio
+                    audioElement.play(); // Inizia la riproduzione
+                } else {
+                    // Se l'audio è già in riproduzione, fermalo e azzeralo
+                    audioElement.pause(); // Ferma la riproduzione
+                    audioElement.currentTime = 0; // Riavvolgi l'audio all'inizio
+                }
+            });
+        </script>
+        
+    </body>
+</html>

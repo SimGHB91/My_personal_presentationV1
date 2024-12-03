@@ -1,0 +1,893 @@
+/********************** GESTIONE FONT TESTO ************************************************************************************/
+@font-face {
+  src: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/86186/terminal_copy.ttf);
+  font-family: "Terminal";
+}
+@font-face {
+  src: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/86186/sys.ttf) format("truetype");
+  font-family: "Sys";
+}
+@font-face {
+  src: url("https://jackphilippi.com.au/cdn/fonts/outrun_future.otf") format("opentype");
+  font-family: "OutRun";
+}
+@font-face {
+  src: url("./fonts/HelpMe.ttf") format("truetype");
+  font-family: "HelpMe";
+}
+@font-face {
+  src: url("./fonts/Crused Marrie.ttf") format("truetype");
+  font-family: "Crused Marrie";
+}
+@import url('https://fonts.cdnfonts.com/css/portia');
+
+/* Stili per schermi ad alta risoluzione, alta densità, contrasto elevato e preferenze colore */
+@media 
+    (min-resolution: 192dpi),
+    (-webkit-min-device-pixel-ratio: 2),
+    (min--moz-device-pixel-ratio: 2),
+    (-o-min-device-pixel-ratio: 2/1),
+    (min-device-pixel-ratio: 2),
+    (min-resolution: 2dppx),
+    (min-resolution: 3dppx),
+    (min-resolution: 4dppx),
+    (prefers-contrast: more),
+    (prefers-color-scheme: dark),
+    (prefers-color-scheme: light),
+    (hover: none) and (pointer: coarse),
+    (hover: hover) and (pointer: fine) {
+    /* Qui puoi aggiungere le regole CSS specifiche per i dispositivi ad alta risoluzione */
+
+    /************ RESET INIZIALE ************/
+    *,
+    *::before,
+    *::after {
+      /*margin: 0;
+      padding: 0;*/
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+    }   
+    body {
+      background: #000000 none repeat scroll 0 0;
+      margin: 0;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .screen::before {
+      background: transparent linear-gradient(to bottom, #85908c 0%, #323431 100%) repeat scroll 0 0;
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate3d(-50%, -50%, 0);
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .scanlines .overlay {
+      height: 100%;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /*********** IMMAGINE DI SFONDO IN DIV A PARTE DI OVERLAY ***********/
+    .overlay .imgdecori {
+      position: absolute;
+      right: 0px;
+      top: 0px;
+      z-index: 100000000; /* Parte nascosta */
+      animation: wobblex 100ms infinite, wobbley 100ms infinite;
+      opacity: 1; /* Nascondi inizialmente */
+      transition: opacity 1s, z-index 1s; /* Transizione per rendere visibile l'immagine */
+    }
+    .imgdecori img {
+      width: 400px;
+      height: auto;
+      filter: blur(1px);
+      
+    }
+    .overlay .imgphoto {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("./img/Fotogenerale8-B.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      filter: blur(1.5px);
+      z-index: -10000; /* Parte nascosta */
+      animation: wobblex 100ms infinite, wobbley 100ms infinite;
+      opacity: 0; /* Nascondi inizialmente */
+      transition: opacity 1s, z-index 1s; /* Transizione per rendere visibile l'immagine */
+    }
+    .wobblex {
+      animation: wobblex 100ms infinite;
+    }
+    .wobbley {
+      animation: wobbley 100ms infinite;
+    }
+    @keyframes wobblex {
+      50% {
+        transform: translateX(2px);
+      }
+      51% {
+        transform: translateY(0px);
+      }
+    }
+    @keyframes wobbley {
+      0% {
+        transform: translateY(2px);
+      }
+      100% {
+        transform: translateY(0px);
+      }
+    }
+
+
+    canvas {
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 9998;
+      width: 100%;
+      height: 100%;
+    }
+    canvas.snow {
+      background-color: #aaa;
+      opacity: 0.2; /* Effetto di sfondo leggero */
+    }
+    canvas#canvas {
+      opacity: 0.7; /* Miscelazione dell'effetto neve e rumore */
+    }
+
+
+    .scanlines .overlay::after {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;         /****** immagine cornice schermo tv ******/
+      background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/86186/crt.png");
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      content: "";
+    }
+    .scanlines .overlay::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      content: " ";
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+      z-index: 2;
+      background-size: 100% 2px, 3px 100%;
+      pointer-events: none;
+    }
+
+    .picture {
+      height: 100vh;
+      overflow: hidden;
+      width: 100vw;
+      z-index: -1;
+      transform: scale(0, 0);
+      background: transparent linear-gradient(to bottom, #85908c 0%, #323431 100%) repeat scroll 0 0;
+    }
+
+    .menu {
+      /*font-family: "Sys";
+      font-size: 7vmin;*/
+      opacity: 0;
+      background-color: #006aff00;
+      box-sizing: border-box;
+      height: auto;
+      width: auto;
+      text-transform: uppercase;
+      filter: blur(1px);
+      -webkit-animation: jerkup 100ms infinite;
+              animation: jerkup 100ms infinite;
+    }
+    .menu header {
+      background-color: rgba(0, 0, 255, 0);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: "HelpMe", "Helvetica", sans-serif;  /** cambiare qui il font di Simone **/
+      color: rgba(255, 255, 255, 0.906);
+      text-transform: uppercase;
+      letter-spacing: 0px;
+      rotate: 0eg;
+      text-shadow: 0 1px 10px rgba(0, 255, 0, 0.842);
+      
+      /*
+      -webkit-text-stroke-width: 1px;
+      -webkit-text-stroke-color: #000;                                               
+      /*margin-bottom: 10px;
+      padding: 5px 15px;*/
+      transition: opacity 0.5s ease, filter 0.5s ease; /* Transizioni morbide */
+      -webkit-animation: 5s ease 2000ms normal none infinite running glitch;
+              animation: 5s ease 2000ms normal none infinite running glitch;
+    }
+    .menu footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: "Crused Marrie", "Helvetica", sans-serif;  /** cambiare qui il font di Simone **/
+      background-color: #2afd7000;
+      color: #ffffff;
+      letter-spacing: 8px;
+      text-shadow: 0 1px 10px rgba(0, 255, 0, 0.842);
+      margin-top: 30px;
+      /*padding: 5px 15px;*/
+      
+      -webkit-animation: 5s ease 2000ms normal none infinite running glitch;
+              animation: 5s ease 2000ms normal none infinite running glitch;
+    }
+    .typing-text::after {
+      overflow: hidden; /* Hides text until revealed */
+      white-space: nowrap; /* Prevents wrapping */
+      content: "|";
+      animation: blink ease 1s infinite;
+    }
+    @keyframes blink {
+      0%, 100% {
+          opacity: 0;
+      } 50% {
+          opacity: 1;
+      }
+    } 
+    .on .picture {
+      -webkit-animation: 3000ms linear 0ms normal forwards 1 running on;
+              animation: 3000ms linear 0ms normal forwards 1 running on;
+    }
+
+    .off .picture {
+      -webkit-animation: 750ms cubic-bezier(0.23, 1, 0.32, 1) 0ms normal forwards 1 running off;
+              animation: 750ms cubic-bezier(0.23, 1, 0.32, 1) 0ms normal forwards 1 running off;
+    }
+
+    .text {
+      color: rgba(0, 255, 0, 0);
+      content: "";
+      filter: blur(0.5px);
+      font-family: Sys;
+      font-size: 5.5vmin;
+      left: 50px;
+      position: absolute;
+      text-shadow: 0 0 3px rgba(0, 255, 0, 0);
+      top: 25px;
+      width: 200px;
+      z-index: 10000000000000000000000;
+    }
+    .text span {
+      line-height: 0.1;
+    }
+    /* Stato iniziale */
+    #av1 {
+      opacity: 0;
+      animation: fadeOut 10s forwards; /* Dopo 3 secondi diventa invisibile */
+    }
+    #channel, #play, #timer {
+      opacity: 0;
+      animation: fadeIn 12s forwards; /* Dopo 3 secondi diventano visibili */
+    }
+    /* Definizione delle animazioni */
+    @keyframes fadeOut {
+      0% {
+        opacity: 0; /* Visibile inizialmente */
+      }
+      100% {
+        opacity: 0; /* Diventa invisibile */
+      }
+    }
+    @keyframes fadeIn {
+      0% {
+        opacity: 0; /* Invisibile inizialmente */
+      }
+      100% {
+        opacity: 1; /* Diventa visibile */
+      }
+    }
+
+    .on .text, .on .menu {
+      opacity: 1;
+      transition: opacity 10ms ease 2000ms;
+    }
+
+    @-webkit-keyframes on {
+      0% {
+        transform: scale(1, 0.8) translate3d(0, 0, 0);
+        filter: brightness(4);
+        opacity: 1;
+      }
+      3.5% {
+        transform: scale(1, 0.8) translate3d(0, 100%, 0);
+      }
+      3.6% {
+        transform: scale(1, 0.8) translate3d(0, -100%, 0);
+        opacity: 1;
+      }
+      9% {
+        transform: scale(1.3, 0.6) translate3d(0, 100%, 0);
+        filter: brightness(4);
+        opacity: 0;
+      }
+      11% {
+        transform: scale(1, 1) translate3d(0, 0, 0);
+        filter: contrast(0) brightness(0);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1, 1) translate3d(0, 0, 0);
+        filter: contrast(1) brightness(1.2) saturate(1.3);
+        opacity: 1;
+      }
+    }
+
+    @keyframes on {
+      0% {
+        transform: scale(1, 0.8) translate3d(0, 0, 0);
+        filter: brightness(4);
+        opacity: 1;
+      }
+      3.5% {
+        transform: scale(1, 0.8) translate3d(0, 100%, 0);
+      }
+      3.6% {
+        transform: scale(1, 0.8) translate3d(0, -100%, 0);
+        opacity: 1;
+      }
+      9% {
+        transform: scale(1.3, 0.6) translate3d(0, 100%, 0);
+        filter: brightness(4);
+        opacity: 0;
+      }
+      11% {
+        transform: scale(1, 1) translate3d(0, 0, 0);
+        filter: contrast(0) brightness(0);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1, 1) translate3d(0, 0, 0);
+        filter: contrast(1) brightness(1.2) saturate(1.3);
+        opacity: 1;
+      }
+    }
+    @-webkit-keyframes off {
+      0% {
+        transform: scale(1, 1);
+        filter: brightness(1);
+      }
+      40% {
+        transform: scale(1, 0.005);
+        filter: brightness(100);
+      }
+      70% {
+        transform: scale(1, 0.005);
+      }
+      90% {
+        transform: scale(0.005, 0.005);
+      }
+      100% {
+        transform: scale(0, 0);
+      }
+    }
+    @keyframes off {
+      0% {
+        transform: scale(1, 1);
+        filter: brightness(1);
+      }
+      40% {
+        transform: scale(1, 0.005);
+        filter: brightness(100);
+      }
+      70% {
+        transform: scale(1, 0.005);
+      }
+      90% {
+        transform: scale(0.005, 0.005);
+      }
+      100% {
+        transform: scale(0, 0);
+      }
+    }
+    /******************** gestione testo AV-1 ********************/
+    .text span {
+      filter: blur(1px);
+      position: absolute;
+    }
+
+    .text span:nth-child(1) {
+      color: rgb(255, 255, 255); /* rosso in origine */
+      text-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+      margin-left: -2px;
+      filter: blur(2px);
+    }
+
+    /*
+    .text span:nth-child(2) {
+      color: lime;
+      margin-left: 2px;
+      filter: blur(2px);
+    }
+
+    .text span:nth-child(3) {
+      color: blue;
+      position: 20px 0;
+      filter: blur(1px);
+    }
+
+    .text span:nth-child(4) {
+      color: #fff;
+      filter: blur(1px);
+      text-shadow: 0 0 50px rgba(255, 255, 255, 0.4);
+    }
+
+    .text span:nth-child(5) {
+      color: rgba(255, 255, 255, 0.1);
+      filter: blur(15px);
+    }
+    */
+
+    .text span {
+      -webkit-animation: blur 30ms infinite, jerk 50ms infinite;
+              animation: blur 30ms infinite, jerk 50ms infinite;
+    }
+
+    @-webkit-keyframes blur {
+      0% {
+        filter: blur(1px);
+        opacity: 0.8;
+      }
+      50% {
+        filter: blur(1px);
+        opacity: 1;
+      }
+      100% {
+        filter: blur(1px);
+        opacity: 0.8;
+      }
+    }
+
+    @keyframes blur {
+      0% {
+        filter: blur(1px);
+        opacity: 0.8;
+      }
+      50% {
+        filter: blur(1px);
+        opacity: 1;
+      }
+      100% {
+        filter: blur(1px);
+        opacity: 0.8;
+      }
+    }
+    /**********************************************************************/
+    @-webkit-keyframes jerk {
+      50% {
+        transform: translateX(1px);
+      }
+      51% {
+        transform: translateX(0);
+      }
+    }
+    @keyframes jerk {
+      50% {
+        transform: translateX(1px);
+      }
+      51% {
+        transform: translateX(0);
+      }
+    }
+    @-webkit-keyframes jerkup {
+      0% {
+        transform: translateY(1px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+    @keyframes jerkup {
+      0% {
+        transform: translateY(1px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+    .text span:nth-child(2) {
+      -webkit-animation: jerkup 1s infinite;
+              animation: jerkup 1s infinite;
+    }
+
+    .text span:nth-child(3) {
+      -webkit-animation: glitch1 1s infinite;
+              animation: glitch1 1s infinite;
+    }
+
+    @-webkit-keyframes glitch1 {
+      0% {
+        transform: translateX(0);
+      }
+      30% {
+        transform: translateX(0);
+      }
+      31% {
+        transform: translateX(10px);
+      }
+      32% {
+        transform: translateX(0);
+      }
+      98% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(10px);
+      }
+    }
+
+    @keyframes glitch1 {
+      0% {
+        transform: translateX(0);
+      }
+      30% {
+        transform: translateX(0);
+      }
+      31% {
+        transform: translateX(10px);
+      }
+      32% {
+        transform: translateX(0);
+      }
+      98% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(10px);
+      }
+    }
+    .text span:nth-child(2) {
+      -webkit-animation: glitch2 1s infinite;
+              animation: glitch2 1s infinite;
+    }
+
+    @-webkit-keyframes glitch2 {
+      0% {
+        transform: translateX(0);
+      }
+      30% {
+        transform: translateX(0);
+      }
+      31% {
+        transform: translateX(-10px);
+      }
+      32% {
+        transform: translateX(0);
+      }
+      98% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-10px);
+      }
+    }
+
+    @keyframes glitch2 {
+      0% {
+        transform: translateX(0);
+      }
+      30% {
+        transform: translateX(0);
+      }
+      31% {
+        transform: translateX(-10px);
+      }
+      32% {
+        transform: translateX(0);
+      }
+      98% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-10px);
+      }
+    }
+    .overlay .text {
+      -webkit-animation: 5s ease 2000ms normal none infinite running glitch;
+              animation: 5s ease 2000ms normal none infinite running glitch;
+    }
+
+    @-webkit-keyframes glitch {
+      40% {
+        opacity: 1;
+        transform: scale(1, 1);
+        transform: skew(0, 0);
+      }
+      41% {
+        opacity: 0.8;
+        transform: scale(1, 1.2);
+        transform: skew(80deg, 0);
+      }
+      42% {
+        opacity: 0.8;
+        transform: scale(1, 1.2);
+        transform: skew(-50deg, 0);
+      }
+      43% {
+        opacity: 1;
+        transform: scale(1, 1);
+        transform: skew(0, 0);
+      }
+    }
+
+    @keyframes glitch {
+      40% {
+        opacity: 1;
+        transform: scale(1, 1);
+        transform: skew(0, 0);
+      }
+      41% {
+        opacity: 0.8;
+        transform: scale(1, 1.2);
+        transform: skew(80deg, 0);
+      }
+      42% {
+        opacity: 0.8;
+        transform: scale(1, 1.2);
+        transform: skew(-50deg, 0);
+      }
+      43% {
+        opacity: 1;
+        transform: scale(1, 1);
+        transform: skew(0, 0);
+      }
+    }
+
+    #switcher-tv {
+      position: fixed;
+      right: -120px;
+      bottom: -120px;
+      z-index: 1000000000000;
+      cursor: pointer;  
+      opacity: 1;
+    }
+    #switcher-tv img {
+      width: 70px;
+      cursor: pointer;    
+    }
+
+    .schermotv {
+      background-color: #000; /* Inizialmente nero */
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 0; /* Punto iniziale */
+      height: 0; /* Punto iniziale */
+      transform: translate(-50%, -50%);
+      overflow: hidden;
+      color: #e1eef6;
+      box-shadow: 0 0 50px rgba(255, 255, 255, 0); /* Luce spenta */
+    }
+
+    .schermotv.on {
+      box-shadow: 0 0 50px rgba(255, 255, 200, 1); /* Luce accesa */
+    }
+}
+
+/**************************** MEDIA QUERIES *****************************************/
+
+/******************** FOCUS TOTALE SUGLI SMARTPHONE *********************/
+/* Orientamento Smartphone */
+@media all and (max-width: 480px) and (orientation: portrait) {
+  /* Stili per orientamento verticale su smartphone */
+  .menu header {
+    font-size: 100px;
+  }
+}
+@media all and (max-width: 480px) and (orientation: landscape) {
+  /* Stili per orientamento orizzontale su smartphone */
+  .menu header {
+    font-size: 100px;
+  }
+}
+
+/* Rapporto di Aspetto Smartphone */
+@media all and (max-width: 480px) and (aspect-ratio: 16/9) {
+  /* Stili per rapporto di aspetto 16:9 su smartphone */
+  .menu header {
+    font-size: 100px;
+  }
+}
+@media all and (max-width: 480px) and (aspect-ratio: 4/3) {
+  /* Stili per rapporto di aspetto 4:3 su smartphone */
+  .menu header {
+    font-size: 100px;
+  }
+}
+
+/* Preferenze Colore Smartphone */
+@media all and (max-width: 480px) and (prefers-color-scheme: dark) {
+  /* Stili in modalità scura su smartphone */
+  .menu header {
+    font-size: 100px;
+  }
+}
+@media all and (max-width: 480px) and (prefers-color-scheme: light) {
+  /* Stili in modalità chiara su smartphone */
+  .menu header {
+    font-size: 100px;
+  }
+}
+
+/* Preferenze Movimento Smartphone */
+@media all and (max-width: 480px) and (prefers-reduced-motion: reduce) {
+  /* Stili senza animazioni su smartphone */
+
+}
+
+/* Combinazioni Aggiuntive per Smartphone Touch */
+@media all and (max-width: 480px) and (hover: none) and (pointer: coarse) {
+  /* Stili per smartphone touch senza hover */
+  .menu header {
+    font-size: 100px;
+  }
+}
+
+/* Alta Risoluzione */
+@media all and (max-width: 480px) and (min-resolution: 192dpi) {
+  /* Stili per dispositivi ad alta risoluzione */
+  .menu header {
+    font-size: 100px;
+  }
+}
+
+
+/******************** FOCUS TOTALE SUL TABLET 481px a 767px *********************/
+/* Orientamento Tablet */
+@media all and (min-width: 481px) and (max-width: 767px) and (orientation: portrait) {
+  /* Stili per orientamento verticale su tablet */
+}
+@media all and (min-width: 481px) and (max-width: 767px) and (orientation: landscape) {
+  /* Stili per orientamento orizzontale su tablet */
+}
+
+/* Rapporto di Aspetto Tablet */
+@media all and (min-width: 481px) and (max-width: 767px) and (aspect-ratio: 16/9) {
+  /* Stili per rapporto di aspetto 16:9 su tablet */
+}
+@media all and (min-width: 481px) and (max-width: 767px) and (aspect-ratio: 4/3) {
+  /* Stili per rapporto di aspetto 4:3 su tablet */
+}
+
+/* Preferenze Colore Tablet */
+@media all and (min-width: 481px) and (max-width: 767px) and (prefers-color-scheme: dark) {
+  /* Stili in modalità scura su tablet */
+}
+@media all and (min-width: 481px) and (max-width: 767px) and (prefers-color-scheme: light) {
+  /* Stili in modalità chiara su tablet */
+}
+
+/* Preferenze Movimento Tablet */
+@media all and (min-width: 481px) and (max-width: 767px) and (prefers-reduced-motion: reduce) {
+  /* Stili senza animazioni su tablet */
+}
+
+/* Combinazioni Aggiuntive per Tablet Touch */
+@media all and (min-width: 481px) and (max-width: 767px) and (hover: none) and (pointer: coarse) {
+  /* Stili per tablet touch senza hover */
+}
+
+/* Alta Risoluzione */
+@media all and (min-width: 481px) and (max-width: 767px) and (min-resolution: 192dpi) {
+  /* Stili per dispositivi ad alta risoluzione */
+}
+
+
+/******************** FOCUS TOTALE SUL TABLET 768px a 1025px *********************/
+/* Orientamento Tablet */
+@media all and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  /* Stili per tablet in modalità verticale */
+  .menu header {
+    font-size: 100px;
+  }
+}
+@media all and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  /* Stili per tablet in modalità orizzontale */
+  .menu header {
+    font-size: 100px;
+  }
+}
+
+/* Rapporto di Aspetto Tablet */  
+@media all and (min-width: 768px) and (max-width: 1024px) and (aspect-ratio: 16/9) {
+  /* Stili per rapporto di aspetto 16:9 su tablet */
+  .menu header {
+    font-size: 100px;
+  }
+}
+@media all and (min-width: 768px) and (max-width: 1024px) and (aspect-ratio: 4/3) {
+  /* Stili per rapporto di aspetto 4:3 su tablet */
+  .menu header {
+    font-size: 100px;
+  }
+}
+
+/* Preferenze Colore Tablet */
+@media all and (min-width: 768px) and (max-width: 1024px) and (prefers-color-scheme: dark) {
+  /* Stili in modalità scura su tablet */
+  .menu header {
+    font-size: 100px;
+  }
+}
+@media all and (min-width: 768px) and (max-width: 1024px) and (prefers-color-scheme: light) {
+  /* Stili in modalità chiara su tablet */
+  .menu header {
+    font-size: 100px;
+  }
+}
+
+/* Preferenze Movimento Tablet */
+@media all and (min-width: 768px) and (max-width: 1024px) and (prefers-reduced-motion: reduce) {
+  /* Stili senza animazioni su tablet */
+  .menu header {
+    font-size: 100px;
+  }
+} 
+
+/* Combinazioni Aggiuntive per Tablet Touch */
+@media all and (min-width: 768px) and (max-width: 1024px) and (hover: none) and (pointer: coarse) {
+  /* Stili per tablet touch senza hover */
+  .menu header {
+    font-size: 100px;
+  }
+}
+
+/* Alta Risoluzione */
+@media all and (min-width: 768px) and (max-width: 1024px) and (min-resolution: 192dpi) {
+  /* Stili per dispositivi ad alta risoluzione */
+  .menu header {
+    font-size: 90px;
+  }
+  .menu footer {
+    font-size: 57px;
+  }
+}
+
+
+/******************** FOCUS TOTALE SU LAPTOP E DESKTOP *********************/
+/* Media Query per Laptop e Desktop */
+@media all and (min-width: 1025px) {
+  /* Stili per laptop e desktop */
+  .menu header {
+    font-size: 120px;
+  }
+  .menu footer {
+    font-size: 76px;
+  }
+}
+
+
+/******************** FOCUS TOTALE SU DESKTOP *********************/
+/* Media Query per schermi di grandi dimensioni */
+@media all and (min-width: 1281px) {
+  /* Stili per schermi di grandi dimensioni */
+  .menu header {
+    font-size: 150px;
+  }
+  .menu footer {
+    font-size: 95px;
+  }
+}
