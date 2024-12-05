@@ -16,6 +16,9 @@ Currently this theme isn't in dev mode. I wanted to keep it very simple and mini
 
 # License
 Copyright © 2024 Simone Regazzo (@SimGHB91)
+
 The theme is released under the MIT License. 
+
 Fork of an original work #Codevember10 - CRT TV Effect (https://codepen.io/Mobius1/pen/zZpoXj)
+
 Check the original theme [license](https://github.com/SimGHB91/Vintage_TV_style/blob/4f116bac0f3b1f2889ab38b31931bc93a76f215f/LICENSE.txt) for additional licensing information.
