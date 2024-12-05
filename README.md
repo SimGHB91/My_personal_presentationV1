@@ -1,4 +1,4 @@
-# VINTAGE TELEVISION EFFECT: a stunning and magical effect!
+# VINTAGE TELEVISION EFFECT: my personal hero section!
 ![Screenshot 2024-12-03 at 19 02 05](https://raw.githubusercontent.com/SimGHB91/Vintage_TV_style/refs/heads/main/schermata-anteprima.png)
 
 # DEMO
